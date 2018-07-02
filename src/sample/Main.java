@@ -43,7 +43,10 @@ public class Main extends Application {
     button.setTranslateY(200);
 
     // For now, we will trigger jumps using the button (instead of the spacebar)
-    button.setOnAction(event -> dino.setVy(75));
+    button.setOnAction(event -> {
+      // TODO add sound when jumping
+      dino.setVy(75);
+    });
 
     // TODO bind spacebar to jump (tell the image it needs to go up)
     //EventHandler<KeyEvent> doJump = event -> {
@@ -59,7 +62,6 @@ public class Main extends Application {
       dino.update(40.0 / 100); // TODO make deltaTime more accurate
       System.out.println("dino.getY() = " + dino.getY());
       System.out.println("dino.getVy() = " + dino.getVy());
-      System.out.println(dino.getVy());
       imageView.setTranslateY(-dino.getY());
     });
 
