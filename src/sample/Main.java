@@ -26,14 +26,11 @@ public class Main extends Application {
     primaryStage.setFullScreen(true);
 
     // Create an image from a file; we will animate the ImageView object
-    File file = new File("face.jpg");
+    File file = new File("dinojump.gif");
     Image dinoImg = new Image(file.toURI().toString());
     ImageView imageView = new ImageView(dinoImg);
     root.getChildren().add(imageView);
-
-    // The image is too big, so shrink it (easier than opening GIMP)
-    imageView.setScaleX(0.3);
-    imageView.setScaleY(0.3);
+    // TODO: different animation states based on dino (KeyFrame, switch-case)
 
     // The Dinosaur object holds physics state (position, velocity, gravity)
     Dinosaur dino = new Dinosaur();
@@ -46,7 +43,7 @@ public class Main extends Application {
     button.setTranslateY(200);
 
     // For now, we will trigger jumps using the button (instead of the spacebar)
-    button.setOnAction(event -> dino.setVy(100));
+    button.setOnAction(event -> dino.setVy(75));
 
     // TODO bind spacebar to jump (tell the image it needs to go up)
     //EventHandler<KeyEvent> doJump = event -> {
@@ -59,8 +56,11 @@ public class Main extends Application {
 
     // Update the position of the dinosaur using a keyframe that runs at 25fps
     KeyFrame keyFrame = new KeyFrame(Duration.millis(40), event -> {
-      dino.update(40 / 1000);
-      imageView.setTranslateY(dino.getY());
+      dino.update(40.0 / 100); // TODO make deltaTime more accurate
+      System.out.println("dino.getY() = " + dino.getY());
+      System.out.println("dino.getVy() = " + dino.getVy());
+      System.out.println(dino.getVy());
+      imageView.setTranslateY(-dino.getY());
     });
 
     // Make a timeline that uses our keyFrame
@@ -97,6 +97,10 @@ class Dinosaur {
 
   public double getY() {
     return y;
+  }
+
+  public double getVy() {
+    return vy;
   }
 
   /**
